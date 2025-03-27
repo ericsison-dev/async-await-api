@@ -1,0 +1,38 @@
+services:
+  # ExpressJS application service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: users_api
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      - PORT=${PORT}
+      - MONGO_URI=${MONGO_URI}
+
+  # MongoDB service
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_local
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  mongodb_data:
