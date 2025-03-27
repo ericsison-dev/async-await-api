@@ -10,7 +10,11 @@ export const connectDb = async () => {
 };
 
 const initializeDbSchema = () => {
-  const UserSchema = new mongoose.Schema({ name: String, email: String });
+  const UserSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+  });
+
   const User = mongoose.model("User", UserSchema);
 
   return { User };
