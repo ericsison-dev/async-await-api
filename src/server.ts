@@ -10,6 +10,10 @@ app.use(express.json());
 app.use(cors()); // Allow frontend access
 app.use("/users", userRoutes);
 
+app.get("/", async (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 connectDb();
 
 const port = process.env.PORT || 5000;
