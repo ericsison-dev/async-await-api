@@ -1,10 +1,5 @@
-import express from "express";
-import { Request, Response } from "express";
+import express, { Request, Response } from "express";
 import { schema } from "../db/mongodb";
-
-export type UserParams = {
-  id: string;
-};
 
 const router = express.Router();
 
