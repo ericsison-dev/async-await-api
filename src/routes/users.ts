@@ -1,6 +1,6 @@
 import express from "express";
 import { Request, Response } from "express";
-import { schema } from "../mongodb";
+import { schema } from "../db/mongodb";
 
 export type UserParams = {
   id: string;
