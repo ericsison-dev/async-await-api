@@ -14,6 +14,22 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await schema.User.findById(req.params.id);
+
+    if (!user) {
+      res.status(404).json({ message: "User not found!" });
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+});
+
 router.post("/", async (req: Request, res: Response) => {
   try {
     const user = await schema.User.create(req.body);
@@ -25,7 +41,7 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-router.put("/", async (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response) => {
   try {
     const user = await schema.User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.status(200).json(user);
@@ -36,7 +52,7 @@ router.put("/", async (req: Request, res: Response) => {
   }
 });
 
-router.delete("/", async (req: Request, res: Response) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   try {
     await schema.User.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "User deleted!" });
